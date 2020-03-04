@@ -19,8 +19,8 @@ namespace ReadabilityCalculator
         public ReadingScore(string inputText)
         {
             _inputText = inputText;
-            NumberWords = WordCountFinder(_inputText);
-            NumberSentences = SentenceCountFinder(_inputText);
+            NumberWords = GetWordCount(_inputText);
+            NumberSentences = GetSentenceCount(_inputText);
             double numberSyllablesTemp = 0;
             var syllableDictionary = new SyllableDictionary();
             foreach (Match word in matches)
@@ -39,13 +39,13 @@ namespace ReadabilityCalculator
             
         }
 
-        public double WordCountFinder(string text)
+        public double GetWordCount(string text)
         {
             matches = Regex.Matches(text, @"\b[^\s]+\b");
             return matches.Count;
         }
 
-        public double SentenceCountFinder(string text)
+        public double GetSentenceCount(string text)
         {
             var sentenceCountFinder = Regex.Matches(text, @"\s+[^.!?]*[.!?]");
             return sentenceCountFinder.Count;
