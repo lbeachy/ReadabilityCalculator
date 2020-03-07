@@ -1,4 +1,4 @@
-﻿@model ReadabilityCalculator.Models.Readability.ReadabilityResults_vm
+@model ReadabilityCalculator.Models.Readability.ReadabilityResults_vm
 
 @{
     ViewData["Title"] = "ReadabilityResults";
@@ -6,46 +6,43 @@
 
 <h2>ReadabilityResults</h2>
 
-<h4>ReadabilityResults_vm</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="ReadabilityResults">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="InputText" class="control-label"></label>
-                <input asp-for="InputText" class="form-control" />
-                <span asp-validation-for="InputText" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Words" class="control-label"></label>
-                <input asp-for="Words" class="form-control" />
-                <span asp-validation-for="Words" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sentences" class="control-label"></label>
-                <input asp-for="Sentences" class="form-control" />
-                <span asp-validation-for="Sentences" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Syllables" class="control-label"></label>
-                <input asp-for="Syllables" class="form-control" />
-                <span asp-validation-for="Syllables" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Score" class="control-label"></label>
-                <input asp-for="Score" class="form-control" />
-                <span asp-validation-for="Score" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
+<!--I found this article useful for the pull-right part, but I didn't actually look at your article until afterwards:  https://www.formget.com/bootstrap-grid/ -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="ReadabilityResults">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label asp-for="InputText" class="control-label"></label>
+                        <textarea asp-for="InputText" class="form-control" rows="5" cols="10"></textarea>
+                        <span asp-validation-for="InputText" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="NumberWords" class="control-label"></label>
+                        <input asp-for="NumberWords" class="form-control" />
+                        <span asp-validation-for="NumberWords" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="NumberSentences" class="control-label"></label>
+                        <input asp-for="NumberSentences" class="form-control" />
+                        <span asp-validation-for="NumberSentences" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="NumberSyllables" class="control-label"></label>
+                        <input asp-for="NumberSyllables" class="form-control" />
+                        <span asp-validation-for="NumberSyllables" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2 pull-right">
+                        <label asp-for="ReadabilityScore" class="control-label"></label>
+                        <input asp-for="ReadabilityScore" class="form-control" />
+                        <span asp-validation-for="ReadabilityScore" class="text-danger"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
