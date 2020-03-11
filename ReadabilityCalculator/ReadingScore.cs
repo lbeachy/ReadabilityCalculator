@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,23 +7,24 @@ using ReadabilityCalculator.Models;
 
 namespace ReadabilityCalculator
 {
-    public class ReadingScore
+    public class ReadingScore : IReadingScore
     {
-        private string _inputText { get; set; }
+        public string InputText { get; }
         public double NumberWords { get; }
         public double NumberSentences { get; }
         public double NumberSyllables { get; }
-        private MatchCollection matches;
-        
+
+        public MatchCollection Matches { get; set; }
+
 
         public ReadingScore(string inputText)
         {
-            _inputText = inputText;
-            NumberWords = GetWordCount(_inputText);
-            NumberSentences = GetSentenceCount(_inputText);
+            InputText = inputText;
+            NumberWords = GetWordCount();
+            NumberSentences = GetSentenceCount();
             double numberSyllablesTemp = 0;
             var syllableDictionary = new SyllableDictionary();
-            foreach (Match word in matches)
+            foreach (Match word in Matches)
             {
                 int syllablesInWord = syllableDictionary.GetSyllableCount(Convert.ToString(word));
                 if (syllablesInWord == 0)
@@ -36,24 +37,24 @@ namespace ReadabilityCalculator
             }
             NumberSyllables = numberSyllablesTemp;
 
-            
+
         }
 
-        public double GetWordCount(string text)
+        public double GetWordCount()
         {
-            matches = Regex.Matches(text, @"\b[^\s]+\b");
-            return matches.Count;
+            Matches = Regex.Matches(InputText, @"\b[^\s]+\b");
+            return Matches.Count;
         }
 
-        public double GetSentenceCount(string text)
+        public double GetSentenceCount()
         {
-            var sentenceCountFinder = Regex.Matches(text, @"\s+[^.!?]*[.!?]");
+            var sentenceCountFinder = Regex.Matches(InputText, @"\s+[^.!?]*[.!?]");
             return sentenceCountFinder.Count;
         }
 
-        public double CalculateScore(double words, double sentences, double syllables)
+        public double CalculateScore()
         {
-            return 206.835 - (1.015 * (words / sentences)) - (84.6 * (syllables / words));
+            return 206.835 - (1.015 * (NumberWords / NumberSentences)) - (84.6 * (NumberSyllables / NumberWords));
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ReadabilityCalculator.Models.Readability;
-using System.Text.RegularExpressions;
+using ReadabilityCalculator.Models;
 
 namespace ReadabilityCalculator.Controllers
 {
@@ -19,35 +19,31 @@ namespace ReadabilityCalculator.Controllers
         [HttpPost]
         public ActionResult Index(ReadabilityInput_vm model)
         {
-            //throw an if statement about ModelState.IsValid property
+
+
             if (string.IsNullOrWhiteSpace(model.InputText))
             {
-                ModelState.AddModelError("InputText", "Silly Rabbit. Empty text boxes are for kids!");
+                ModelState.AddModelError("InputText", "Text cannot be empty or white space.");
+            }
+            if (!ModelState.IsValid)
+            {
                 return View(model);
             }
 
 
-            var wordCountFinder = Regex.Matches(model.InputText, @"\b[^\s]+\b");
-            double wordCount = wordCountFinder.Count;
-            var sentenceCountFinder = Regex.Matches(model.InputText, @"\s+[^.!?]*[.!?]");
-            double sentenceCount = sentenceCountFinder.Count;
-            var syllableCountFinder = Regex.Matches(model.InputText, @"[aeiouy]+?\w*?[^e]");
-            double syllableCount = syllableCountFinder.Count;
+            var readingScore = new ReadingScore(model.InputText);
 
-            double readingLevel = .39 * (wordCount / sentenceCount)
-                + 11.8 * (syllableCount / wordCount)
-                - 15.59;
-
-            var viewModel = new ReadabilityResults_vm()
+            ReadabilityResults_vm viewModel = new ReadabilityResults_vm()
             {
                 InputText = model.InputText,
-                Words = Convert.ToString(wordCount),
-                Sentences = Convert.ToString(sentenceCount),
-                Syllables = Convert.ToString(syllableCount),
-                Score = Convert.ToString(readingLevel)
+                NumberWords = Convert.ToString(readingScore.NumberWords),
+                NumberSentences = Convert.ToString(readingScore.NumberSentences),
+                NumberSyllables = Convert.ToString(readingScore.NumberSyllables),
+                ReadabilityScore = Convert.ToString(Math.Round(readingScore.CalculateScore(), 2))
             };
+
             return View("ReadabilityResults", viewModel);
+
         }
-       
     }
 }
