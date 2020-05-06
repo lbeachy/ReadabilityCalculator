@@ -19,6 +19,9 @@ namespace ReadabilityCalculator.Models.Readability
 
         [DisplayName("Syllables:")]
         public string NumberSyllables { get; set; }
+        
+        [DisplayName("Characters")]
+        public string NumberOfCharacters { get; set; }
 
         [DisplayName("Readability Score:")]
         public string ReadabilityScore { get; set; }
