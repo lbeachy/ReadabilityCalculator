@@ -12,14 +12,14 @@ namespace ReadabilityCalculator.Models.Readability
         public string InputText { get; set; }
 
         [DisplayName("Words:")]
-        public string NumberWords { get; set; }
+        public string NumberOfWords { get; set; }
 
         [DisplayName("Sentences:")]
-        public string NumberSentences { get; set; }
+        public string NumberOfSentences { get; set; }
 
         [DisplayName("Syllables:")]
-        public string NumberSyllables { get; set; }
-        
+        public string NumberOfSyllables { get; set; }
+
         [DisplayName("Characters")]
         public string NumberOfCharacters { get; set; }
 
