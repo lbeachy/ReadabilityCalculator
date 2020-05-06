@@ -17,10 +17,10 @@ namespace ReadabilityCalculator.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(ReadabilityInput_vm model)
+        public ActionResult Index(ReadabilityInput_vm model, string btnSubmit)
         {
 
-
+            
             if (string.IsNullOrWhiteSpace(model.InputText))
             {
                 ModelState.AddModelError("InputText", "Text cannot be empty or white space.");
@@ -30,20 +30,78 @@ namespace ReadabilityCalculator.Controllers
                 return View(model);
             }
 
+            ReadabilityResults_vm viewModel = new ReadabilityResults_vm();
+            
 
-            var readingScore = new ReadingScore(model.InputText);
-
-            ReadabilityResults_vm viewModel = new ReadabilityResults_vm()
+            switch (btnSubmit)
             {
-                InputText = model.InputText,
-                NumberWords = Convert.ToString(readingScore.NumberWords),
-                NumberSentences = Convert.ToString(readingScore.NumberSentences),
-                NumberSyllables = Convert.ToString(readingScore.NumberSyllables),
-                ReadabilityScore = Convert.ToString(Math.Round(readingScore.CalculateScore(), 2))
-            };
+                case "Flesch Reading Ease":
+
+                var readingScore = new FleschReadingEase(model.InputText);
+
+                    viewModel.InputText = model.InputText;
+                    viewModel.NumberOfWords = Convert.ToString(readingScore.NumberOfWords);
+                    viewModel.NumberOfSentences = Convert.ToString(readingScore.NumberOfSentences);
+                    viewModel.NumberOfSyllables = Convert.ToString(readingScore.NumberOfSyllables);
+                    viewModel.NumberOfCharacters = Convert.ToString(readingScore.NumberOfCharacters);
+                    viewModel.ReadabilityScore = Convert.ToString(readingScore.ReadingScore);
+                    ViewData["IndexUsed"] = "Flesch Reading Ease";
+
+                break;
+                case "Flesch Kincaid Grade Level":
+                var readingScore2 = new FleschKincaidGradeLevel(model.InputText);
+
+                    viewModel.InputText = model.InputText;
+                    viewModel.NumberOfWords = Convert.ToString(readingScore2.NumberOfWords);
+                    viewModel.NumberOfSentences = Convert.ToString(readingScore2.NumberOfSentences);
+                    viewModel.NumberOfSyllables = Convert.ToString(readingScore2.NumberOfSyllables);
+                    viewModel.NumberOfCharacters = Convert.ToString(readingScore2.NumberOfCharacters);
+                    viewModel.ReadabilityScore = Convert.ToString(readingScore2.ReadingScore);
+                    ViewData["IndexUsed"] = "Flesch Kincaid Grade Level";
+
+                    break;
+                case "Automated Readability Index":
+                var readingScore3 = new AutomatedReadabilityIndex(model.InputText);
+
+                    viewModel.InputText = model.InputText;
+                    viewModel.NumberOfWords = Convert.ToString(readingScore3.NumberOfWords);
+                    viewModel.NumberOfSentences = Convert.ToString(readingScore3.NumberOfSentences);
+                    viewModel.NumberOfSyllables = Convert.ToString(readingScore3.NumberOfSyllables);
+                    viewModel.NumberOfCharacters = Convert.ToString(readingScore3.NumberOfCharacters);
+                    viewModel.ReadabilityScore = Convert.ToString(readingScore3.ReadingScore);
+                    ViewData["IndexUsed"] = "Automated Readability Index";
+
+                    break;
+                case "Coleman-Liau Index":
+                var readingScore4 = new ColemanLiauIndex(model.InputText);
+
+                    viewModel.InputText = model.InputText;
+                    viewModel.NumberOfWords = Convert.ToString(readingScore4.NumberOfWords);
+                    viewModel.NumberOfSentences = Convert.ToString(readingScore4.NumberOfSentences);
+                    viewModel.NumberOfSyllables = Convert.ToString(readingScore4.NumberOfSyllables);
+                    viewModel.NumberOfCharacters = Convert.ToString(readingScore4.NumberOfCharacters);
+                    viewModel.ReadabilityScore = Convert.ToString(readingScore4.ReadingScore);
+                    ViewData["IndexUsed"] = "Coleman-Liau Index";
+
+                    break;
+                default:
+                    break;
+            }
+            
 
             return View("ReadabilityResults", viewModel);
 
+        }
+
+        [HttpPost]
+        public IActionResult ReadabilityResults(string button)
+        {
+            if (button.Equals("Return"))
+            {
+                return Index();
+            }
+
+            return Index();
         }
     }
 }
