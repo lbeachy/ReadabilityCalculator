@@ -25,7 +25,12 @@ namespace ReadabilityCalculator
         public double GetNumberOfSentences()
         {
             var sentenceCountFinder = Regex.Matches(inputText, @"\s+[^.!?]*[.!?]");
-            return sentenceCountFinder.Count;
+            double numberOfSentences = sentenceCountFinder.Count;
+            if (numberOfSentences == 0)
+            {
+                numberOfSentences = 1;
+            }
+            return numberOfSentences;
         }
 
         public double GetNumberOfSyllables()
@@ -34,7 +39,7 @@ namespace ReadabilityCalculator
             var syllableDictionary = new SyllableDictionary();
             foreach (Match word in Matches)
             {
-                int syllablesInWord = syllableDictionary.GetNumberOfSyllables(Convert.ToString(word));
+                int syllablesInWord = syllableDictionary.GetSyllableCount(Convert.ToString(word));
                 if (syllablesInWord == 0)
                 {
                     var syllableCountTemp = Regex.Matches(Convert.ToString(word), @"[aeiouy]+?\w*?[^e]");
