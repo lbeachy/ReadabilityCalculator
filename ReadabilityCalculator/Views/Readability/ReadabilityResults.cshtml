@@ -4,10 +4,11 @@
     ViewData["Title"] = "ReadabilityResults";
 }
 
-<h2>ReadabilityResults</h2>
+<h2>Results</h2>
+
+@ViewData["IndexUsed"]
 
 <hr />
-<!--I found this article useful for the pull-right part, but I didn't actually look at your article until afterwards:  https://www.formget.com/bootstrap-grid/ -->
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -20,28 +21,58 @@
                         <span asp-validation-for="InputText" class="text-danger"></span>
                     </div>
                     <div class="col-md-2">
-                        <label asp-for="NumberWords" class="control-label"></label>
-                        <input asp-for="NumberWords" class="form-control" />
-                        <span asp-validation-for="NumberWords" class="text-danger"></span>
+                        <label asp-for="NumberOfWords" class="control-label"></label>
+                        <input asp-for="NumberOfWords" class="form-control" />
+                        <span asp-validation-for="NumberOfWords" class="text-danger"></span>
                     </div>
                     <div class="col-md-2">
-                        <label asp-for="NumberSentences" class="control-label"></label>
-                        <input asp-for="NumberSentences" class="form-control" />
-                        <span asp-validation-for="NumberSentences" class="text-danger"></span>
+                        <label asp-for="NumberOfSentences" class="control-label"></label>
+                        <input asp-for="NumberOfSentences" class="form-control" />
+                        <span asp-validation-for="NumberOfSentences" class="text-danger"></span>
                     </div>
                     <div class="col-md-2">
-                        <label asp-for="NumberSyllables" class="control-label"></label>
-                        <input asp-for="NumberSyllables" class="form-control" />
-                        <span asp-validation-for="NumberSyllables" class="text-danger"></span>
+                        <label asp-for="NumberOfSyllables" class="control-label"></label>
+                        <input asp-for="NumberOfSyllables" class="form-control" />
+                        <span asp-validation-for="NumberOfSyllables" class="text-danger"></span>
                     </div>
-                    <div class="col-md-2 pull-right">
+                    <div class="col-md-2">
+                        <label asp-for="NumberOfCharacters" class="control-label"></label>
+                        <input asp-for="NumberOfCharacters" class="form-control" />
+                        <span asp-validation-for="NumberOfCharacters" class="text-danger"></span>
+                    </div>
+                    <div class="offset-2"></div>
+                    <div class="col-md-2">
                         <label asp-for="ReadabilityScore" class="control-label"></label>
                         <input asp-for="ReadabilityScore" class="form-control" />
                         <span asp-validation-for="ReadabilityScore" class="text-danger"></span>
                     </div>
                 </div>
             </form>
-        </div>
+            <p></p>
+            <div class="row">
+                <div class="col-md-2">
+                    @using (Html.BeginForm("Index", "Readability", FormMethod.Post))
+                    {
+                        <input type="submit" value="Return" class="btn btn-primary" name="btnSubmit" />
+                    }
+                </div>
+            </div>
+
+            <div id="Explain all the formulas">
+                <p></p>
+                <h3>How these formulas work</h3>
+                <hr />
+                <p>The Flesch Reading Ease formula considers the average sentence length and the average number of syllables per word.  The score given will be between 0-100, with 100 being the easiest,
+                60-69 considered standard, and 0-29 considered very confusing.</p>
+                <p>The Flesch-Kincaid Grade Level formula considers the average sentence length and the average number of syllables per word.  The score given will be the approximate grade level 
+                required to understand the writing.</p>
+                <p>The Automated Readability Index considers the number of characters per word and the number of words per sentence.  The score given will be the approximate grade level 
+                required to understand the writing.</p>
+                <p>The Coleman-Liau Index considers the average number of letters per 100 words and average number of sentences per 100 words.
+                    The score given will be the approximate grade level required to understand the writing. </p>
+                <p>Note: due to my lack of being able to perfectly parse most writing, these scores are merely estimates and are not perfectly accurate.</p>
+            </div>
+        </div>  
     </div>
 </div>
 
