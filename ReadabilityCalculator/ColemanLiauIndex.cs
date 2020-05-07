@@ -30,7 +30,7 @@ namespace ReadabilityCalculator
 
         double CalculateScore()
         {
-            double score = .0588 * (NumberOfCharacters / (NumberOfCharacters/100)) - .296 * (NumberOfSentences / (NumberOfWords / 100)) - 15.8;
+            double score = .0588 * (NumberOfCharacters / (NumberOfWords/100)) - .296 * (NumberOfSentences / (NumberOfWords / 100)) - 15.8;
             return Math.Round(score, 2);
         }
     }
